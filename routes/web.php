@@ -43,3 +43,12 @@ Route::put('/listings/{id}', [ListingController::class, 'update'])
 Route::delete('/listings/{id}', [ListingController::class, 'destroy'])
     ->middleware(['auth', EnsureListingOwner::class])
     ->name('listings.destroy');
+
+
+Route::post('/listings/{id}/reviews', [ReviewController::class, 'store'])
+    ->middleware('auth')
+    ->name('reviews.store');
+
+Route::delete('/listings/{id}/reviews/{reviewId}', [ReviewController::class, 'destroy'])
+    ->middleware(['auth', EnsureReviewAuthor::class])
+    ->name('reviews.destroy');
