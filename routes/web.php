@@ -45,6 +45,7 @@ Route::delete('/listings/{id}', [ListingController::class, 'destroy'])
     ->name('listings.destroy');
 
 
+
 Route::post('/listings/{id}/reviews', [ReviewController::class, 'store'])
     ->middleware('auth')
     ->name('reviews.store');
@@ -52,3 +53,47 @@ Route::post('/listings/{id}/reviews', [ReviewController::class, 'store'])
 Route::delete('/listings/{id}/reviews/{reviewId}', [ReviewController::class, 'destroy'])
     ->middleware(['auth', EnsureReviewAuthor::class])
     ->name('reviews.destroy');
+
+
+
+Route::get('/signup', [AuthController::class, 'showSignupForm'])->name('signup');
+
+Route::post('/signup', [AuthController::class, 'signup']);
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])
+    ->middleware(SaveIntendedUrl::class);
+
+Route::get('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/listings/{listing}/book', [BookingController::class, 'create'])
+        ->name('bookings.create');
+
+    Route::post('/listings/{listing}/book', [BookingController::class, 'store'])
+        ->name('bookings.store');
+
+    Route::get('/bookings/{booking}', [BookingController::class, 'show'])
+        ->name('bookings.show');
+
+    Route::get('/my-bookings', [BookingController::class, 'myBookings'])
+        ->name('bookings.my-bookings');
+
+    Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])
+        ->name('bookings.cancel');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/host/dashboard', [BookingController::class, 'hostDashboard'])
+        ->name('bookings.host-dashboard');
+
+    Route::patch('/bookings/{booking}/confirm', [BookingController::class, 'confirm'])
+        ->name('bookings.confirm');
+
+    Route::patch('/bookings/{booking}/reject', [BookingController::class, 'reject'])
+        ->name('bookings.reject');
+});
