@@ -20,22 +20,24 @@ return new class extends Migration
             $table->decimal('price', 10, 2)->nullable();
             $table->string('location')->nullable();
             $table->string('country')->nullable();
-            
+
             // Geometry field (GeoJSON Point)
             $table->string('geometry_type')->default('Point');
             $table->json('geometry_coordinates'); // [longitude, latitude]
-            
-            // Owner foreign key (equivalent to Node.js owner ObjectId ref)
+
+            // Owner foreign key 
             $table->foreignId('owner_id')
-                  ->constrained('users')
-                  ->onDelete('cascade');
-            
+                ->constrained('users')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     * The down() function is used to undo the migration.
+     * removes the listings table
      */
     public function down(): void
     {

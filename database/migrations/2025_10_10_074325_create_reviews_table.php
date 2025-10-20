@@ -15,17 +15,27 @@ return new class extends Migration
             $table->id();
             $table->text('comment')->nullable();
             $table->integer('rating')->unsigned();
-            
-            // Author foreign key (equivalent to Node.js author ObjectId ref)
+
+            // Author foreign key )
             $table->foreignId('author_id')
-                  ->constrained('users')
-                  ->onDelete('cascade');
-            
-            // Listing foreign key (implicit in Mongo via parent doc reviews array)
+                ->constrained('users')
+                ->onDelete('cascade');
+
+            /*
+                foreignId('author_id') : creates a column to store the user (author) ID.
+
+                constrained('users') : connects it to the id column in the users table.
+
+                onDelete('cascade') : if the user is deleted, their reviews are also deleted.
+
+                Similarly, listing_id links each review to a listing, and deleting a listing removes its related reviews.
+            */
+
+            // Listing foreign key 
             $table->foreignId('listing_id')
-                  ->constrained('listings')
-                  ->onDelete('cascade');
-            
+                ->constrained('listings')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }

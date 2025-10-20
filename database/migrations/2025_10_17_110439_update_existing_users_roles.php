@@ -10,12 +10,12 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * Only update existing users' roles, don't create new users
+     * already created users er role change korbo
      * (UserSeeder handles user creation)
      */
     public function up(): void
     {
-        // Update existing users with roles if they exist (Bangladeshi names)
+
         DB::table('users')->where('username', 'niloy')->update(['role' => 'host']);
         DB::table('users')->where('username', 'rafiq')->update(['role' => 'host']);
         DB::table('users')->where('username', 'tasnim')->update(['role' => 'host']);

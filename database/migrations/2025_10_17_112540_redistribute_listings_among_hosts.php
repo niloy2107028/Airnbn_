@@ -10,7 +10,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * Redistribute all listings evenly among hosts (only if listings exist)
+     * listing gula already created users er modde distribute korbo
      * Note: This migration is mainly for updating existing data, not fresh installs
      */
     public function up(): void
@@ -30,7 +30,7 @@ return new class extends Migration
             return; // No listings to redistribute
         }
 
-        // Redistribute listings evenly among hosts (round-robin)
+        // round robin diye evenly distribution
         foreach ($listings as $index => $listing) {
             $hostIndex = $index % count($hostIds);
             $newOwnerId = $hostIds[$hostIndex];
