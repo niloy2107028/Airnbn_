@@ -1,0 +1,39 @@
+/* ============================================
+   FORMS - Login, Signup, Create, Edit Pages
+   ============================================ */
+
+.add-btn {
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+.image_edit_preview {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+/* ============================================
+   RESPONSIVE STYLES - Forms
+   ============================================ */
+
+/* Small tablets and large phones */
+@media (max-width: 768px) {
+    .image_edit_preview {
+        max-height: 250px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+    .add-btn {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+    }
+
+    .image_edit_preview {
+        max-height: 200px;
+    }
+}

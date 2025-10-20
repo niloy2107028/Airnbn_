@@ -1,0 +1,84 @@
+/* ============================================
+   COMMON STYLES - Used across all pages
+   ============================================ */
+
+body {
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    padding-top: 80px;
+    background-color: #f8f9fa !important;
+    color: #222222;
+}
+
+.container {
+    flex: 1;
+    margin-top: 2rem;
+}
+
+.fa-compass {
+    color: #ff385c;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    font-size: 1rem !important;
+    color: #222222 !important;
+}
+
+/* ============================================
+   RESPONSIVE STYLES - Common
+   ============================================ */
+
+/* Tablets and medium screens */
+@media (max-width: 992px) {
+    .container {
+        margin-top: 1.5rem;
+        padding: 0 1rem;
+    }
+}
+
+/* Small tablets and large phones */
+@media (max-width: 768px) {
+    .container {
+        margin-top: 1rem;
+        padding: 0 0.75rem;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+    body {
+        font-size: 14px;
+    }
+
+    .container {
+        margin-top: 0.5rem;
+        padding: 0 0.5rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+    body {
+        font-size: 13px;
+    }
+
+    .container {
+        padding: 0 0.25rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+}
