@@ -64,7 +64,6 @@ Manages listings:
 -   `edit($id)`: Shows edit form.
 -   `update(Request $request, $id)`: Updates listing with new data/image.
 -   `destroy($id)`: Deletes listing and associated image.
--   `trackClick($id)`: Increments trending points for listing.
 
 ### BookingController
 
@@ -72,7 +71,6 @@ Handles bookings:
 
 -   `create(Listing $listing)`: Shows booking form for guests.
 -   `store(Request $request, Listing $listing)`: Creates new booking.
--   `show(Booking $booking)`: Displays booking details.
 -   `myBookings()`: Shows guest's bookings.
 -   `cancel(Booking $booking)`: Cancels booking (guest).
 -   `hostDashboard()`: Shows host's dashboard with listings and bookings.

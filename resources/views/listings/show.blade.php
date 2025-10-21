@@ -150,6 +150,7 @@
         if (listing.geometry_coordinates && typeof listing.geometry_coordinates === 'string') {
             try {
                 listing.geometry_coordinates = JSON.parse(listing.geometry_coordinates);
+                // parse kori cz mysql string e store kortese coordinates amr lagbe array te 
             } catch (e) {
                 console.error('Failed to parse coordinates:', e);
                 listing.geometry_coordinates = [0, 0];

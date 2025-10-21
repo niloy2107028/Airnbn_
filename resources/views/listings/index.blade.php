@@ -864,7 +864,7 @@
                             <div class="index_show_card-body card-body">
                                 <h5 class="card-title">{{ $data->title }}</h5>
                                 <p class="card-text">
-                                    {{ $data->price) }}/night
+                                    {{ $data->price }}/night
                                     <span class="tax-info">&nbsp;&nbsp;+18% VAT</span>
                                 </p>
 

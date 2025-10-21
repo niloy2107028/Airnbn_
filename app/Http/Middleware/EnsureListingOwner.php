@@ -29,3 +29,6 @@ class EnsureListingOwner
         return $next($request);
     }
 }
+
+//user owner hoile request continue hbe
+// Passes control to the next middleware or controller

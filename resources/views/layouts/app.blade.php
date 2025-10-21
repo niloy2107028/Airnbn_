@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airnbn</title>
 
+    <!-- Favicon (tab icon) -->
+    <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
+
     <!-- Modular CSS Files -->
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">

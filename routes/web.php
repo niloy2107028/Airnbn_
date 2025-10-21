@@ -22,15 +22,13 @@ Route::get('/listings/new', [ListingController::class, 'create'])
     ->middleware('auth')
     ->name('listings.create');
 
+// nam dile frontend e full url likha lage na 
+
 Route::post('/listings', [ListingController::class, 'store'])
     ->middleware('auth')
     ->name('listings.store');
 
 Route::get('/listings/{id}', [ListingController::class, 'show'])->name('listings.show');
-
-Route::post('/listings/{id}/track-click', [ListingController::class, 'trackClick'])
-    ->middleware('auth')
-    ->name('listings.trackClick');
 
 Route::get('/listings/{id}/edit', [ListingController::class, 'edit'])
     ->middleware(['auth', EnsureListingOwner::class])
@@ -76,9 +74,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/listings/{listing}/book', [BookingController::class, 'store'])
         ->name('bookings.store');
-
-    Route::get('/bookings/{booking}', [BookingController::class, 'show'])
-        ->name('bookings.show');
 
     Route::get('/my-bookings', [BookingController::class, 'myBookings'])
         ->name('bookings.my-bookings');

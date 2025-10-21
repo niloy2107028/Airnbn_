@@ -20,64 +20,64 @@ class UserSeeder extends Seeder
         User::create([
             'username' => 'niloy',
             'email' => 'niloy@gmail.com',
-            'password' => Hash::make('password1234'),
+            'password' => Hash::make('1234'),
             'role' => 'host',
         ]);
 
         User::create([
-            'username' => 'rafiq',
+            'username' => 'rafsan',
             'email' => 'rafiq@example.com',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('1234'),
             'role' => 'host',
         ]);
 
         User::create([
-            'username' => 'tasnim',
+            'username' => 'akash',
             'email' => 'tasnim@example.com',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('1234'),
             'role' => 'host',
         ]);
 
         User::create([
-            'username' => 'karim',
+            'username' => 'apu',
             'email' => 'karim@example.com',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('1234'),
             'role' => 'host',
         ]);
 
         User::create([
-            'username' => 'sadia',
+            'username' => 'shishir',
             'email' => 'sadia@example.com',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('1234'),
             'role' => 'host',
         ]);
 
         User::create([
-            'username' => 'fahim',
+            'username' => 'hifju',
             'email' => 'fahim@example.com',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('1234'),
             'role' => 'host',
         ]);
 
         // Create 3 Guest users with Bangladeshi names
         User::create([
-            'username' => 'nusrat',
+            'username' => 'fatiha',
             'email' => 'nusrat@example.com',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('1234'),
             'role' => 'guest',
         ]);
 
         User::create([
-            'username' => 'arif',
+            'username' => 'neon',
             'email' => 'arif@example.com',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('1234'),
             'role' => 'guest',
         ]);
 
         User::create([
-            'username' => 'mim',
+            'username' => 'sorna',
             'email' => 'mim@example.com',
-            'password' => Hash::make('password123'),
+            'password' => Hash::make('1234'),
             'role' => 'guest',
         ]);
     }
