@@ -136,6 +136,7 @@ class ListingController extends Controller
 
             try {
                 // cloudinary te upload korlam
+                $filename = 'airnbn_DEV/' . time() . '_' . $uploadedFile->getClientOriginalName();
                 $path = Storage::disk('cloudinary')->putFileAs('airnbn_DEV', $uploadedFile, time() . '_' . $uploadedFile->getClientOriginalName());
                 //pathe folder name and filename dibo time+original name mileye
                 // cloudinary er URL banalam

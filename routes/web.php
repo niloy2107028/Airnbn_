@@ -80,7 +80,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])
         ->name('bookings.cancel');
+    // Laravel automatic vabe URL theke ID diye Booking ta khuje ney!
+    // PATCH /bookings/25/cancel
+    // Laravel automatic vabe ei line ta run kore:
+    // $booking = Booking::findOrFail(25);  
+    // mane holo ID 25 er booking ta khuje ber koro
+    //then controller e auto pass hbe as controller booking object ney
+
+
 });
+//middleware diye grouping
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/host/dashboard', [BookingController::class, 'hostDashboard'])
