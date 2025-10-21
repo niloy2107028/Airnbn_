@@ -61,7 +61,8 @@ class BookingController extends Controller
 
 
         $bookings = Auth::user()->bookings()->with('listing')->latest()->get();
-        return view('bookings.my-bookings', compact('bookings'))->with('success', 'Booking request sent! Waiting for host confirmation.');
+        $hostName = Auth::user()->username;
+        return view('bookings.my-bookings', compact('bookings', 'hostName'))->with('success', 'Booking request sent! Waiting for host confirmation.');
     }
 
 
@@ -114,6 +115,9 @@ class BookingController extends Controller
         }
 
         $booking->update(['status' => 'confirmed']);
+
+        // Increment trending points when booking is confirmed
+        $booking->listing->incrementTrendingPoints();
 
         return redirect()->back()->with('success', 'Booking confirmed successfully!');
     }

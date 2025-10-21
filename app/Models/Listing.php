@@ -74,7 +74,7 @@ class Listing extends Model
     }
 
     /**
-     * Increment trending points when a logged-in user views the listing
+     * Increment trending points when a booking is confirmed by the owner
      */
     public function incrementTrendingPoints()
     {

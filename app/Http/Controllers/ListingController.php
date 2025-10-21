@@ -90,10 +90,8 @@ class ListingController extends Controller
         $requireData = Listing::with(['reviews.author', 'owner'])
             ->findOrFail($id);
 
-        // Increment trending points if user is authenticated
-        if (Auth::check()) {
-            $requireData->incrementTrendingPoints();
-        }
+        // Trending points are now incremented when booking is confirmed
+        // No longer increment on view
 
         return view('listings.show', compact('requireData'));
     }
