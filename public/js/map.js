@@ -10,7 +10,7 @@ if (!mapToken1 || mapToken1 === "your-mapbox-access-token") {
 } else {
     mapboxgl.accessToken = mapToken1;
 
-    // Get coordinates - support both Node.js structure (geometry.coordinates) and Laravel structure (geometry_coordinates)
+    // Get coordinates from listing
     const coordinates = listing.geometry?.coordinates ||
         listing.geometry_coordinates || [0, 0];
 

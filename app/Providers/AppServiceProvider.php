@@ -17,7 +17,6 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      * Share current user and flash messages with all views
-     * Equivalent to Node.js: res.locals.currUser = req.user;
      */
     public function boot(): void
     {

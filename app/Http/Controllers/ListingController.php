@@ -11,10 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-/**
- * Listing Controller
- * Ported from Node.js controllers/listingController.js
- */
+
 class ListingController extends Controller
 {
     protected $geocodingService;
@@ -26,14 +23,15 @@ class ListingController extends Controller
 
     /**
      * Index - Show all listings
-     * Node.js: module.exports.index
      */
     public function index(Request $request)
     {
         $query = Listing::query();
+        //query builder obj banalam for listing model
 
         // Search by destination (location or country)
         if ($request->has('search') && !empty($request->search)) {
+            // The $request object contains all data sent by the user (query parameters, form inputs, etc.).
             $searchTerm = $request->search;
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('location', 'like', '%' . $searchTerm . '%')
@@ -64,7 +62,6 @@ class ListingController extends Controller
 
     /**
      * Show create form
-     * Node.js: module.exports.renderNewListingForm
      */
     public function create()
     {
@@ -83,7 +80,6 @@ class ListingController extends Controller
 
     /**
      * Show single listing
-     * Node.js: module.exports.showListing
      */
     public function show($id)
     {
@@ -98,7 +94,6 @@ class ListingController extends Controller
 
     /**
      * Store new listing
-     * Node.js: module.exports.createListing
      */
     public function store(StoreListingRequest $request)
     {
@@ -177,14 +172,12 @@ class ListingController extends Controller
 
     /**
      * Show edit form
-     * Node.js: module.exports.renderEditForm
      */
     public function edit($id)
     {
         $requireData = Listing::findOrFail($id);
 
         // Image URL manipulation for thumbnail preview
-        // Node.js: originalImageUrl.replace("/upload", "/upload/c_fill,w_250/bo_5px_solid_lightblue")
         $originalImageUrl = $requireData->image_url;
         if ($originalImageUrl) {
             $originalImageUrl = str_replace(
@@ -199,7 +192,6 @@ class ListingController extends Controller
 
     /**
      * Update listing
-     * Node.js: module.exports.updateListing
      */
     public function update(StoreListingRequest $request, $id)
     {
@@ -253,7 +245,6 @@ class ListingController extends Controller
 
     /**
      * Delete listing
-     * Node.js: module.exports.deleteListing
      * Note: Reviews will be cascade deleted via Listing model's booted() method
      */
     public function destroy($id)

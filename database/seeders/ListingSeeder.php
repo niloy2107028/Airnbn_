@@ -12,8 +12,6 @@ class ListingSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     * Ports ALL 28 sample listings from Node.js init/data.js
-     * Performs forward geocoding like Node.js init/index.js
      */
     public function run(): void
     {
@@ -29,7 +27,7 @@ class ListingSeeder extends Seeder
 
         $this->command->info("Found {$hosts->count()} host users for listing distribution.");
 
-        // ALL 28 sample listings data from Node.js init/data.js
+        // Sample listings data
         $sampleListings = [
             [
                 'title' => 'Cozy Beachfront Cottage',

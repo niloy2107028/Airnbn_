@@ -10,13 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Review Controller
- * Ported from Node.js controllers/reviewController.js
  */
 class ReviewController extends Controller
 {
     /**
      * Store a new review for a listing
-     * Node.js: module.exports.createReview
      */
     public function store(StoreReviewRequest $request, $listingId)
     {
@@ -35,7 +33,6 @@ class ReviewController extends Controller
 
     /**
      * Delete a review
-     * Node.js: module.exports.deleteReview
      */
     public function destroy($listingId, $reviewId)
     {

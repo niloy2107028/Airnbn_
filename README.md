@@ -1,6 +1,6 @@
 # Airnbn Project Documentation
 
-This is a Laravel-based Airbnb clone project, ported from a Node.js/Express application. It provides a platform for hosts to list properties and guests to book them.
+This is a Laravel-based Airbnb clone project. It provides a platform for hosts to list properties and guests to book them.
 
 ## Table of Contents
 

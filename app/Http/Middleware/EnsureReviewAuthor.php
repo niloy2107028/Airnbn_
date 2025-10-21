@@ -12,7 +12,6 @@ class EnsureReviewAuthor
 {
     /**
      * Handle an incoming request.
-     * Equivalent to Node.js isReviewAuthor middleware
      * Checks if the authenticated user is the author of the review
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
@@ -22,13 +21,12 @@ class EnsureReviewAuthor
         $reviewId = $request->route('reviewId') ?? $request->route('review');
         $listingId = $request->route('id') ?? $request->route('listing');
         $review = Review::findOrFail($reviewId);
-        
-        // Node.js: if (!reviewData.author.equals(res.locals.currUser._id))
+
         if ($review->author_id !== Auth::id()) {
             return redirect()->route('listings.show', $listingId)
                 ->with('error', 'You are not the author of this review!');
         }
-        
+
         return $next($request);
     }
 }

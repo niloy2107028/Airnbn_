@@ -9,14 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 /**
  * Auth Controller
- * Ported from Node.js controllers/userController.js
  * Handles user authentication: signup, login, logout
  */
 class AuthController extends Controller
 {
     /**
      * Show signup form
-     * Node.js: module.exports.renderSignUpForm
      */
     public function showSignupForm()
     {
@@ -25,8 +23,6 @@ class AuthController extends Controller
 
     /**
      * Handle signup
-     * Node.js: module.exports.signUpDb
-     * Equivalent to passport-local-mongoose register() + req.login()
      */
     public function signup(Request $request)
     {
@@ -38,8 +34,6 @@ class AuthController extends Controller
                 'user.role' => 'required|in:guest,host',
             ]);
 
-            // Node.js: const newUser = new userModel({ email, username });
-            // Node.js: const registeredNewUser = await userModel.register(newUser, password);
             $user = User::create([
                 'username' => $request->input('user.username'),
                 'email' => $request->input('user.email'),
@@ -48,7 +42,6 @@ class AuthController extends Controller
             ]);
 
             // Auto-login after registration
-            // Node.js: req.login(registeredNewUser, (err) => { ... })
             Auth::login($user);
 
             return redirect()->route('listings.index')
@@ -61,7 +54,6 @@ class AuthController extends Controller
 
     /**
      * Show login form
-     * Node.js: module.exports.loginForm
      */
     public function showLoginForm()
     {
@@ -70,8 +62,6 @@ class AuthController extends Controller
 
     /**
      * Handle login
-     * Node.js: module.exports.afterLoginCallbackFunction
-     * Uses passport.authenticate middleware in Node.js, manual Auth::attempt() in Laravel
      */
     public function login(Request $request)
     {
@@ -85,14 +75,11 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Handle redirect URL from session
-            // Node.js: let redirectUrl = res.locals.redirectUrl;
             $redirectUrl = session('url.intended');
 
             // Special handling for DELETE method in redirect URL
-            // Node.js: if (redirectUrl && redirectUrl.includes("_method=DELETE"))
             if ($redirectUrl && str_contains($redirectUrl, '_method=DELETE')) {
                 // Extract listing ID and redirect to listing show page
-                // Node.js: const listingId = redirectUrl.split("/")[2];
                 preg_match('/\/listings\/(\d+)/', $redirectUrl, $matches);
                 if (!empty($matches[1])) {
                     return redirect()->route('listings.show', $matches[1])
@@ -101,7 +88,6 @@ class AuthController extends Controller
             }
 
             // Default redirect
-            // Node.js: res.redirect(redirectUrl || "/listings");
             return redirect()->intended(route('listings.index'))
                 ->with('success', 'Welcome back to Airnbn');
         }
@@ -113,8 +99,6 @@ class AuthController extends Controller
 
     /**
      * Handle logout
-     * Node.js: module.exports.logOut
-     * Uses req.logout() in Node.js, Auth::logout() in Laravel
      */
     public function logout(Request $request)
     {
