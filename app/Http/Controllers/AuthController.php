@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Hash;
 
 /**
  * Auth Controller
- * Handles user authentication: signup, login, logout
+ * user registration, login, logout handle kore
  */
 class AuthController extends Controller
 {
     /**
-     * Show signup form
+     * signup form dekhabo
      */
     public function showSignupForm()
     {
@@ -22,7 +22,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle signup
+     * signup handle korbo
      */
     public function signup(Request $request)
     {
@@ -41,7 +41,7 @@ class AuthController extends Controller
                 'role' => $request->input('user.role'),
             ]);
 
-            // Auto-login after registration
+            // registration er por auto login kore dibo
             Auth::login($user);
 
             return redirect()->route('listings.index')
@@ -53,7 +53,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Show login form
+     * login form dekhabo
      */
     public function showLoginForm()
     {
@@ -61,7 +61,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle login
+     * login handle korbo
      */
     public function login(Request $request)
     {
@@ -70,16 +70,16 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Attempt to authenticate using username instead of email
+        // username diye login attempt korbo
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            // Handle redirect URL from session
+            // session theke redirect URL ta nibo
             $redirectUrl = session('url.intended');
 
-            // Special handling for DELETE method in redirect URL
+            // DELETE method thakle special handling
             if ($redirectUrl && str_contains($redirectUrl, '_method=DELETE')) {
-                // Extract listing ID and redirect to listing show page
+                // listing ID ber kore listing page e pathabo
                 preg_match('/\/listings\/(\d+)/', $redirectUrl, $matches);
                 if (!empty($matches[1])) {
                     return redirect()->route('listings.show', $matches[1])
@@ -87,7 +87,7 @@ class AuthController extends Controller
                 }
             }
 
-            // Default redirect
+            // na hole normal redirect
             return redirect()->intended(route('listings.index'))
                 ->with('success', 'Welcome back to Airnbn');
         }
@@ -98,7 +98,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle logout
+     * logout handle korbo
      */
     public function logout(Request $request)
     {

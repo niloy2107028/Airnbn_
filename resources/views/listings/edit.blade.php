@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Select2 CSS -->
+    <!-- Select2 CSS link -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
         rel="stylesheet" />
 
-    <!-- Loading Overlay Styles -->
+    <!-- Loading overlay er style -->
     <style>
         .loading-overlay {
             position: fixed;
@@ -63,7 +63,7 @@
         }
     </style>
 
-    <!-- Loading Overlay -->
+    <!-- Loading er overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
             <div class="spinner"></div>
@@ -308,13 +308,13 @@
         </div>
     </div>
 
-    <!-- Select2 JS -->
+    <!-- Select2 JS link -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function() {
-            // Initialize Select2 for all listing type dropdowns
+            // listing type er dropdowns e search feature lagalam Select2 diye
             $('.listing-type-select').select2({
                 theme: 'bootstrap-5',
                 placeholder: 'Search and select a category',
@@ -322,9 +322,9 @@
                 width: '100%'
             });
 
-            // Handle form submission with loading animation
+            // submit hole loading animation dekhabo
             $('#editListingForm').on('submit', function(e) {
-                // Validate form first
+                // age validate kore nibo
                 if (!this.checkValidity()) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -332,16 +332,16 @@
                     return false;
                 }
 
-                // Show loading overlay
+                // loading overlay ta dekhabo
                 $('#loadingOverlay').addClass('active');
 
-                // Disable submit button and show spinner
+                // button disable kore spinner chalu korbo
                 const submitBtn = $('#submitBtn');
                 submitBtn.prop('disabled', true);
                 submitBtn.find('.btn-text').hide();
                 submitBtn.find('.btn-spinner').show();
 
-                // Update loading text if image is being uploaded
+                // jodi image upload korteche tahole different message dekhabo
                 const imageInput = $('input[name="listing[image]"]');
                 if (imageInput[0] && imageInput[0].files && imageInput[0].files.length > 0) {
                     $('.loading-text').text('Uploading new image to Cloudinary...');
@@ -352,7 +352,7 @@
                 }
             });
 
-            // Optional: Hide loading if there's an error (though page will reload anyway)
+            // back button e click korle loading hide kore dibo
             window.addEventListener('pageshow', function(event) {
                 if (event.persisted) {
                     $('#loadingOverlay').removeClass('active');

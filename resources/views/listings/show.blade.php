@@ -172,7 +172,7 @@
                         {{ $requireData->location }}
                     </p>
 
-                    <!-- Listing Types Badges -->
+                    <!-- Listing er types gulo badge akare dekhabo -->
                     <div class="listing-types">
                         @if ($requireData->listing_type_1)
                             <span class="type-badge">{{ $requireData->listing_type_1 }}</span>
@@ -185,7 +185,7 @@
                         @endif
                     </div>
 
-                    <!-- Trending/Bookings Badge - Always on new line -->
+                    <!-- Booking count dekhabo jodi trending hoy -->
                     <div class="bookings-line">
                         @if ($requireData->trending_points > 0)
                             <span class="type-badge trending-badge">No of Bookings:
@@ -197,7 +197,7 @@
                 </div>
             </div>
             @if ($currUser && $currUser->isGuest())
-                {{-- Guest can book the listing --}}
+                {{-- Guest hole book korte parbe --}}
                 <div class="mb-3">
                     <a href="{{ route('bookings.create', $requireData->id) }}" class="btn btn-book-now">
                         Book Now
@@ -244,7 +244,7 @@
                 </form>
             @endif
             @if (count($requireData->reviews) === 0)
-                <!-- <p class="text-muted">No reviews yet.</p> -->
+                <!-- Kono review nai ekhono -->
             @else
                 <hr />
                 <h4 class="mb-3">All Reviews</h4>

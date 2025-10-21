@@ -10,16 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class BookingController extends Controller
 {
     /**
-     * Show booking form for a listing
+     * booking form dekhabo
      */
     public function create(Listing $listing)
     {
-        // Only guests can book
+        // sudhu guest ra book korte parbe
         if (!Auth::user()->isGuest()) {
             return redirect()->route('listings.show', $listing)->with('error', 'Only guests can make bookings.');
         }
 
-        // Check if guest has active booking
+        // guest er already active booking ache kina check
         if (Auth::user()->hasActiveBooking()) {
             return redirect()->route('listings.show', $listing)->with('error', 'You already have an active booking. Please complete or cancel it before making a new booking.');
         }
@@ -28,16 +28,16 @@ class BookingController extends Controller
     }
 
     /**
-     * Store a new booking
+     * booking save korbo
      */
     public function store(Request $request, Listing $listing)
     {
-        // Only guests can book
+        // abar check korbo guest kina
         if (!Auth::user()->isGuest()) {
             return redirect()->route('listings.show', $listing)->with('error', 'Only guests can make bookings.');
         }
 
-        // Check if guest has active booking
+        // active booking check
         if (Auth::user()->hasActiveBooking()) {
             return redirect()->route('listings.show', $listing)->with('error', 'You already have an active booking.');
         }
@@ -67,7 +67,7 @@ class BookingController extends Controller
 
 
     /**
-     * Show user's bookings (for guests)
+     * user er bookings dekhabo
      */
     public function myBookings()
     {
@@ -77,7 +77,7 @@ class BookingController extends Controller
     }
 
     /**
-     * Host dashboard - show pending bookings
+     * host dashboard e pending bookings dekhabo
      */
     public function hostDashboard()
     {
@@ -85,13 +85,13 @@ class BookingController extends Controller
             return redirect()->route('home')->with('error', 'Only hosts can access this page.');
         }
 
-        // Get host's listings
+        // host er sob listings
         $myListings = Auth::user()->listings()->latest()->get();
 
-        // Get pending bookings for host's listings
+        // pending bookings
         $pendingBookings = Auth::user()->pendingBookings();
 
-        // Get all bookings for host's listings
+        // all bookings
         $allBookings = Booking::whereHas('listing', function ($query) {
             $query->where('owner_id', Auth::id());
         })->with(['listing', 'user'])->latest()->get();
@@ -101,11 +101,11 @@ class BookingController extends Controller
     }
 
     /**
-     * Host confirms a booking
+     * host booking confirm korbe
      */
     public function confirm(Booking $booking)
     {
-        // Only listing owner can confirm
+        // sudhu listing owner e confirm korte parbe
         if ($booking->listing->owner_id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
@@ -116,18 +116,18 @@ class BookingController extends Controller
 
         $booking->update(['status' => 'confirmed']);
 
-        // Increment trending points when booking is confirmed
+        // booking confirm hole trending point badhbe
         $booking->listing->incrementTrendingPoints();
 
         return redirect()->back()->with('success', 'Booking confirmed successfully!');
     }
 
     /**
-     * Host rejects a booking
+     * host booking reject korbe
      */
     public function reject(Booking $booking)
     {
-        // Only listing owner can reject
+        // owner e reject korte parbe
         if ($booking->listing->owner_id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
@@ -142,11 +142,11 @@ class BookingController extends Controller
     }
 
     /**
-     * Guest cancels a booking
+     * guest booking cancel korte parbe
      */
     public function cancel(Booking $booking)
     {
-        // Only the guest who made booking can cancel
+        // je guest booking koreche se e cancel korte parbe
         if ($booking->user_id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }

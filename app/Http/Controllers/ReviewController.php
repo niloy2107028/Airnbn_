@@ -10,20 +10,21 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Review Controller
+ * listing er review handle kore
  */
 class ReviewController extends Controller
 {
     /**
-     * Store a new review for a listing
+     * notun review create korbo
      */
     public function store(StoreReviewRequest $request, $listingId)
     {
         $validated = $request->validated();
         $listing = Listing::findOrFail($listingId);
 
-        // Create new review
+        // review ta save korlam
         $review = new Review($validated['review']);
-        $review->author_id = Auth::id(); // Already logged in
+        $review->author_id = Auth::id();
         $review->listing_id = $listing->id;
         $review->save();
 
@@ -32,7 +33,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * Delete a review
+     * review delete korbo
      */
     public function destroy($listingId, $reviewId)
     {

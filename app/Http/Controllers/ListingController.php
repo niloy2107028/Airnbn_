@@ -22,29 +22,30 @@ class ListingController extends Controller
     }
 
     /**
-     * Index - Show all listings
+     * sob listings dekhabo
      */
     public function index(Request $request)
     {
         $query = Listing::query();
         //query builder obj banalam for listing model
 
-        // Search by destination (location or country)
+        // user jodi kono location ba country search kore tahole oi condition gula check korbo
         if ($request->has('search') && !empty($request->search)) {
-            // The $request object contains all data sent by the user (query parameters, form inputs, etc.).
+            // request theke search term ta nilam
             $searchTerm = $request->search;
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('location', 'like', '%' . $searchTerm . '%')
                     ->orWhere('country', 'like', '%' . $searchTerm . '%')
                     ->orWhere('title', 'like', '%' . $searchTerm . '%');
             });
+            //%paris% eta khujbe Paris, South Paris, or Paris Hotel egulake
         }
 
-        // Special handling for Trending filter - sort by trending_points
+        // trending select korle trending_points onujayi sort hobe
         if ($request->has('type') && $request->type === 'Trending') {
             $query->orderBy('trending_points', 'desc');
         }
-        // Filter by listing type if provided - check all three type columns
+        // listing type onujayi filter korte hobe, 3 ta column e check korbo
         elseif ($request->has('type') && $request->type !== 'all') {
             $query->where(function ($q) use ($request) {
                 $q->where('listing_type_1', $request->type)
@@ -61,16 +62,17 @@ class ListingController extends Controller
     }
 
     /**
-     * Show create form
+     * create listing er form dekhabo
      */
     public function create()
     {
-        // Only hosts can create listings
+        // check korbo user host kina, na hole listing create korte dibo na
         if (!Auth::user()->isHost()) {
+            //ishost is a function of user model
             return redirect()->route('listings.index')->with('error', 'Only hosts can create listings.');
         }
 
-        // Check if host has reached listing limit
+        // host 5 tar beshi listing banate parbe na, ota check korbo
         if (!Auth::user()->canCreateListing()) {
             return redirect()->route('listings.index')->with('error', 'You have reached the maximum limit of 5 listings.');
         }
@@ -79,45 +81,49 @@ class ListingController extends Controller
     }
 
     /**
-     * Show single listing
+     * ekta listing er details dekhabo
      */
     public function show($id)
     {
         $requireData = Listing::with(['reviews.author', 'owner'])
             ->findOrFail($id);
+        //Eager loading - loads the listing's reviews, each review's author, and the listing's owner all in one query (prevents N+1 problem)
 
-        // Trending points are now incremented when booking is confirmed
-        // No longer increment on view
+        // trending point increase hobe only jokhn booking confirm hobe
+        // view korle ar increment hobe na
 
         return view('listings.show', compact('requireData'));
     }
 
     /**
-     * Store new listing
+     * notun listing create kore database e save korbo
      */
     public function store(StoreListingRequest $request)
     {
-        // Only hosts can create listings
+        // abar check kore nilam host kina
         if (!Auth::user()->isHost()) {
             return redirect()->route('listings.index')->with('error', 'Only hosts can create listings.');
         }
 
-        // Check if host has reached listing limit
+        // 5 ta listing limit ache kina check
         if (!Auth::user()->canCreateListing()) {
             return redirect()->route('listings.index')->with('error', 'You have reached the maximum limit of 5 listings.');
         }
 
         $validated = $request->validated();
 
-        // Geocode the location
+        // mapbox use kore location theke coordinates ber korbo
         $query = $validated['listing']['location'] . ', ' . $validated['listing']['country'];
+        //location and country use kore Mapbox api e search korbo
         $geometry = $this->geocodingService->forwardGeocode($query, 1);
+        //forward geocoding address theke coordinates dibe (lat.longitude) 1 means 1 tai result dibe besr match
 
-        // Handle file upload to Cloudinary
+        // image upload er jonno cloudinary use korbo
         $imageUrl = null;
         $imageFilename = null;
 
         if ($request->hasFile('listing.image') && $request->file('listing.image')->isValid()) {
+            // is valid laravel er buitin method 
             $uploadedFile = $request->file('listing.image');
 
             Log::info('File upload attempt', [
@@ -129,11 +135,12 @@ class ListingController extends Controller
             ]);
 
             try {
-                // Upload to Cloudinary using Storage disk
+                // cloudinary te upload korlam
                 $path = Storage::disk('cloudinary')->putFileAs('airnbn_DEV', $uploadedFile, time() . '_' . $uploadedFile->getClientOriginalName());
-
-                // Get the full URL from Cloudinary
+                //pathe folder name and filename dibo time+original name mileye
+                // cloudinary er URL banalam
                 $cloudName = config('filesystems.disks.cloudinary.cloud');
+                //config folder er filesystem file through te env theke cloude name anbe
                 $imageUrl = "https://res.cloudinary.com/{$cloudName}/image/upload/{$path}";
                 $imageFilename = $path;
 
@@ -143,11 +150,11 @@ class ListingController extends Controller
                     'path' => $path
                 ]);
             } catch (\Exception $e) {
-                // Log the error but continue without image
+                // jodi upload fail kore tahole image chara listing banabo
                 Log::warning('Cloudinary upload failed: ' . $e->getMessage(), [
                     'trace' => $e->getTraceAsString()
                 ]);
-                // Optionally flash an error message
+                // user ke warning dekhabo
                 session()->flash('warning', 'Image upload failed. Listing created without image.');
             }
         } else {
@@ -157,7 +164,7 @@ class ListingController extends Controller
             ]);
         }
 
-        // Create new listing
+        // listing er data database e save korlam
         $listing = new Listing($validated['listing']);
         $listing->owner_id = Auth::id();
         $listing->image_url = $imageUrl;
@@ -171,13 +178,15 @@ class ListingController extends Controller
     }
 
     /**
-     * Show edit form
+     * listing edit korar form dekhabo
      */
     public function edit($id)
     {
         $requireData = Listing::findOrFail($id);
+        //findOrFail() is a built-in Laravel Eloquent method.
+        // automatically handles 404 (error handle er logic likh lagtese na)
 
-        // Image URL manipulation for thumbnail preview
+        // image er URL ta ektu modify kore thumbnail er jonno
         $originalImageUrl = $requireData->image_url;
         if ($originalImageUrl) {
             $originalImageUrl = str_replace(
@@ -191,14 +200,14 @@ class ListingController extends Controller
     }
 
     /**
-     * Update listing
+     * listing update korbo database e
      */
     public function update(StoreListingRequest $request, $id)
     {
         $validated = $request->validated();
         $listing = Listing::findOrFail($id);
 
-        // Check if location or country changed for conditional geocoding
+        // location ba country change hole notun kore geocode korte hobe
         $locationChanged = $listing->location !== trim($validated['listing']['location']) ||
             $listing->country !== trim($validated['listing']['country']);
 
@@ -210,18 +219,20 @@ class ListingController extends Controller
             $listing->geometry_coordinates = $geometry['coordinates'];
         }
 
-        // Update listing fields
+        // listing er data update korbo
         $listing->fill($validated['listing']);
 
-        // Handle new image upload if provided
+        // notun image thakle seta upload korbo
         if ($request->hasFile('listing.image') && $request->file('listing.image')->isValid()) {
+            // Just checks $_FILES
+            // File is already on server in temp location
             $uploadedFile = $request->file('listing.image');
 
             try {
-                // Upload to Cloudinary using Storage disk
+                // cloudinary te notun image upload
                 $path = Storage::disk('cloudinary')->putFileAs('airnbn_DEV', $uploadedFile, time() . '_' . $uploadedFile->getClientOriginalName());
 
-                // Get the full URL from Cloudinary
+                // URL banalam
                 $cloudName = config('filesystems.disks.cloudinary.cloud');
                 $listing->image_url = "https://res.cloudinary.com/{$cloudName}/image/upload/{$path}";
                 $listing->image_filename = $path;
@@ -231,7 +242,7 @@ class ListingController extends Controller
                     'filename' => $listing->image_filename
                 ]);
             } catch (\Exception $e) {
-                // Log the error but continue with existing image
+                // upload fail hole puran image e thakbe
                 Log::warning('Cloudinary upload failed during update: ' . $e->getMessage());
                 session()->flash('warning', 'Image upload failed. Listing updated without new image.');
             }
@@ -244,8 +255,8 @@ class ListingController extends Controller
     }
 
     /**
-     * Delete listing
-     * Note: Reviews will be cascade deleted via Listing model's booted() method
+     * listing delete korbo
+     * reviews auto delete hobe cascade kore
      */
     public function destroy($id)
     {
