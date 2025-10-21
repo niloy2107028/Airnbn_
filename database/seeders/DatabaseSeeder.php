@@ -10,13 +10,14 @@ class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     * Runs UserSeeder first, then ListingSeeder with geocoding
+     * Runs UserSeeder first, then ListingSeeder with geocoding, then ReviewSeeder
      */
     public function run(): void
     {
         $this->call([
             UserSeeder::class,
             ListingSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }
